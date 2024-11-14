@@ -1,1 +1,1 @@
-# SearchEgineProject
+# SearchEgineProject (ElasticSearch)
