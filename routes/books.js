@@ -68,5 +68,22 @@ router.put('/:isbn', async (req, res) => {
     }
 });
 
+// Supprimer un livre par ISBN
+router.delete('/:isbn', async (req, res) => {
+    const { isbn } = req.params;
+    try {
+        const response = await Book.delete(isbn);
+        
+        if (response.deleted > 0) {
+            res.status(200).json({ message: 'Livre supprimé avec succès' });
+        } else {
+            res.status(404).json({ message: 'Livre non trouvé' });
+        }
+    } catch (error) {
+        console.error('Erreur lors de la suppression du livre:', error);
+        res.status(500).json({ error: 'Erreur lors de la suppression du livre' });
+    }
+});
+
 
 module.exports = router;

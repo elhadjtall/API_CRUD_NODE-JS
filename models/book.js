@@ -72,6 +72,25 @@ const Book = {
                 },
             },
         }),
-};
-
-module.exports = Book;
+        
+        delete: async (isbn) => {
+            const response = await client.deleteByQuery({
+                index: 'book',
+                body: {
+                    query: {
+                        match: {
+                            isbn: isbn
+                        }
+                    }
+                },
+                refresh: true // Pour s'assurer que l'index est mis à jour immédiatement
+            });
+            
+            return {
+                deleted: response.deleted,
+                total: response.total
+            };
+        }
+    };
+    
+    module.exports = Book;
