@@ -47,6 +47,24 @@ const Book = {
                 },
             },
         }),
+    update: (isbn, data) =>
+        client.updateByQuery({
+            index: 'book',
+            body: {
+                query: {
+                    match: { isbn },
+                },
+                script: {
+                    source: `
+                    ctx._source.titre = '${data.titre}';
+                    ctx._source.auteur = '${data.auteur}';
+                    ctx._source.genre = '${data.genre}';
+                    ctx._source.description = '${data.description}';
+                    ctx._source.date_parution = '${data.date_parution}';
+                    `,
+                },
+            },
+        }),
 };
 
 module.exports = Book;
