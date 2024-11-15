@@ -57,6 +57,8 @@ router.get('/:isbn', async (req, res) => {
 router.put('/:isbn', async (req, res) => {
     const { isbn } = req.params;
     const { titre, auteur, genre, description, date_parution } = req.body;
+    console.log('isbn:', isbn);
+    console.log('titre:', titre);
     try {
         const response = await Book.update(isbn, { titre, auteur, genre, description, date_parution });
         res.status(200).json({ message: 'Book mis à jour avec succès', response });

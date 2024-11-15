@@ -56,12 +56,19 @@ const Book = {
                 },
                 script: {
                     source: `
-                    ctx._source.titre = '${data.titre}';
-                    ctx._source.auteur = '${data.auteur}';
-                    ctx._source.genre = '${data.genre}';
-                    ctx._source.description = '${data.description}';
-                    ctx._source.date_parution = '${data.date_parution}';
+                    ctx._source.titre = params.titre;
+                    ctx._source.auteur = params.auteur;
+                    ctx._source.genre = params.genre;
+                    ctx._source.description = params.description;
+                    ctx._source.date_parution = params.date_parution;
                     `,
+                    params: {
+                        titre: data.titre,
+                        auteur: data.auteur,
+                        genre: data.genre,
+                        description: data.description,
+                        date_parution: data.date_parution,
+                    },
                 },
             },
         }),
