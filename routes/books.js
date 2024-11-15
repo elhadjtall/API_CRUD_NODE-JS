@@ -53,6 +53,20 @@ router.get('/:isbn', async (req, res) => {
     }
 });
 
+// Mettre à jour un livre par ISBN
+router.put('/:isbn', async (req, res) => {
+    const { isbn } = req.params;
+    const { titre, auteur, genre, description, date_parution } = req.body;
+    console.log('isbn:', isbn);
+    console.log('titre:', titre);
+    try {
+        const response = await Book.update(isbn, { titre, auteur, genre, description, date_parution });
+        res.status(200).json({ message: 'Book mis à jour avec succès', response });
+    } catch (error) {
+        console.error('Erreur lors de la mise à jour du livre:', error);
+        res.status(500).json({ error: 'Erreur lors de la mise à jour du livre' });
+    }
+});
 
 
 module.exports = router;
