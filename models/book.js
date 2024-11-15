@@ -38,6 +38,19 @@ const Book = {
             },
         }),
 
+    findBySearchQuery:(q) => 
+            client.search({
+                index: 'book',
+                body: {
+                    query: {
+                        query_string: {
+                            query: q,  // Recherche en utilisant la chaîne de recherche 'q'
+                        }
+                    }
+                }
+            }),
+        
+
     findAll: () =>
         client.search({
             index: 'book',

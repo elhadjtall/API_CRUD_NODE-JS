@@ -1,6 +1,8 @@
 const express = require('express');
 const Book = require('../models/book');
 const router = express.Router();
+const client = require('../config/elasticsearch');
+
 
 // Initialiser l'index si nécessaire
 router.get('/creation-index', async (req, res) => {
@@ -37,6 +39,25 @@ router.get('/', async (req, res) => {
     }
 });
 
+// Route pour rechercher des livres
+router.get("/recherche", async (req, res) => {
+    const { q } = req.query; // Récupère le paramètre de recherche
+
+    try {
+        // Utilisation de la méthode findBySearchQuery pour effectuer la recherche
+        const result = await Book.findBySearchQuery(q);
+
+        // Extraire les résultats
+        const books = result.hits.hits.map(hit => hit._source);
+
+        // Réponse
+        res.status(200).json(books);
+    } catch (error) {
+        console.error("Erreur lors de la recherche:", error);
+        res.status(500).json({ error: "Erreur lors de la recherche" });
+    }
+});
+
 // Récupérer un livre par ISBN
 router.get('/:isbn', async (req, res) => {
     const { isbn } = req.params;
@@ -52,6 +73,8 @@ router.get('/:isbn', async (req, res) => {
         res.status(500).json({ error: 'Erreur lors de la récupération du livre' });
     }
 });
+
+
 
 // Mettre à jour un livre par ISBN
 router.put('/:isbn', async (req, res) => {
